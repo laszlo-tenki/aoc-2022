@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><application-layout>
+    <component name="elves">
+        <param name="gui:x" value="-522"/>
+        <param name="gui:y" value="174"/>
+        <param name="gui:width" value="80"/>
+        <param name="gui:height" value="56"/>
+    </component>
+    <component name="is_blank">
+        <param name="gui:x" value="-646"/>
+        <param name="gui:y" value="25"/>
+    </component>
+    <component name="is_last_line">
+        <param name="gui:x" value="-414"/>
+        <param name="gui:y" value="72"/>
+    </component>
+    <component name="next_elf">
+        <param name="gui:x" value="-512"/>
+        <param name="gui:y" value="-36"/>
+        <param name="gui:bends:1" value="-561,45;-549,-6"/>
+    </component>
+    <component name="over_lines">
+        <param name="gui:x" value="-742"/>
+        <param name="gui:y" value="25"/>
+    </component>
+    <component name="read_input">
+        <param name="gui:x" value="-936"/>
+        <param name="gui:y" value="25"/>
+    </component>
+    <component name="read_top_3">
+        <param name="gui:x" value="-312"/>
+        <param name="gui:y" value="72"/>
+    </component>
+    <component name="to_lines">
+        <param name="gui:x" value="-841"/>
+        <param name="gui:y" value="25"/>
+    </component>
+    <component name="top_3_sum">
+        <param name="gui:x" value="-202"/>
+        <param name="gui:y" value="72"/>
+    </component>
+    <component name="update_current_elf">
+        <param name="gui:x" value="-512"/>
+        <param name="gui:y" value="72"/>
+        <param name="gui:bends:1" value="-546,65;-538,102"/>
+    </component>
+    <component name="top_3_calories_total">
+        <param name="gui:x" value="-101"/>
+        <param name="gui:y" value="72"/>
+    </component>
+    <component name="top_3_elves">
+        <param name="gui:x" value="-173"/>
+        <param name="gui:y" value="147"/>
+        <param name="gui:bends:1" value="-217,102;-199,177"/>
+    </component>
+    <component name="update_elf_id">
+        <param name="gui:x" value="-412"/>
+        <param name="gui:y" value="-36"/>
+    </component>
+</application-layout>

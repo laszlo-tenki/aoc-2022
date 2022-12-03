@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modify version="10.4.3_a45545bc0fa864b6dd457e084eb653f6e2004e05">
+    <add>
+        <annotations>
+            <annotation name="hygienic"/>
+        </annotations>
+        <type-metadata>
+            <param name="type" value="module"/>
+            <param name="fully-qualified-name" value="com.aoc.aoc2022.day-01"/>
+        </type-metadata>
+        <memory-model-settings/>
+        <dynamic-variables>
+            <dynamic-variable initial-expression="0" name="ELF_ID" setter-expression="elf_id" setter-stream="update_elf_id"/>
+        </dynamic-variables>
+        <data name="elves" shared="false" source="concrete" type="querytable">
+            <param name="storage-method" value="heap"/>
+            <param name="replicated" value="false"/>
+            <table-schema>
+                <schema>
+                    <field name="elf_id" type="int"/>
+                    <field name="calories" type="int"/>
+                </schema>
+                <primary-index type="hash">
+                    <field name="elf_id"/>
+                </primary-index>
+                <index type="btree">
+                    <field name="calories"/>
+                </index>
+            </table-schema>
+            <param name="truncate" value="false"/>
+            <preload format="csv" mode="empty"/>
+        </data>
+        <box name="read_input" type="inputadapter">
+            <output port="1" stream="out:read_input_1"/>
+            <param name="start:state" value="true"/>
+            <param name="javaclass" value="com.streambase.sb.adapter.filereader.FileReader"/>
+            <param name="Charset" value=""/>
+            <param name="UseDefaultCharset" value="true"/>
+            <param name="blobData" value="false"/>
+            <param name="defaultFileName" value="day-01-input.txt"/>
+            <param name="enableControlPort" value="false"/>
+            <param name="enableStatusPort" value="false"/>
+            <param name="extractCompressedBlobData" value="true"/>
+            <param name="fileContentsFieldName" value="FileContents"/>
+            <param name="filePattern" value="*.*"/>
+            <param name="filePatternField" value=""/>
+            <param name="filenameField" value=""/>
+            <param name="lineSeparator" value=""/>
+            <param name="logLevel" value="INFO"/>
+            <param name="oneTuplePerLine" value="false"/>
+            <param name="passThroughFields" value="false"/>
+            <param name="preserveNewLines" value="true"/>
+            <param name="readAsResource" value="true"/>
+            <param name="readDefaultFileAtStartup" value="true"/>
+            <param name="readFilesSynchronously" value="false"/>
+            <param name="recurseSubFolders" value="true"/>
+            <param name="recurseSubFoldersField" value=""/>
+            <param name="replacementDataFieldName" value=""/>
+        </box>
+        <box name="to_lines" type="map">
+            <input port="1" stream="out:read_input_1"/>
+            <output port="1" stream="out:to_lines_1"/>
+            <target-list>
+                <item name="input" selection="none"/>
+                <expressions>
+                    <include field="lines">split(FileContents, "\n")</include>
+                </expressions>
+            </target-list>
+        </box>
+        <box name="over_lines" type="iterate">
+            <input port="1" stream="out:to_lines_1"/>
+            <output port="1" stream="out:over_lines_1"/>
+            <param name="iterate-expr" value="lines"/>
+            <target-list>
+                <item name="input" selection="none"/>
+                <expressions>
+                    <include field="line">trim(each.element)</include>
+                    <include field="line_index">each.index</include>
+                    <include field="line_count">length(lines)</include>
+                    <include field="elf_id">ELF_ID</include>
+                </expressions>
+            </target-list>
+        </box>
+        <box name="is_blank" type="filter">
+            <input port="1" stream="out:over_lines_1"/>
+            <output port="1" stream="out:is_blank_1"/>
+            <output port="2" stream="out:is_blank_2"/>
+            <param name="autogen-nomatch-port" value="true"/>
+            <param name="expression.0" value="line = &quot;&quot;"/>
+            <param name="expression.1" value="true"/>
+        </box>
+        <box name="next_elf" type="map">
+            <input port="1" stream="out:is_blank_1"/>
+            <output port="1" stream="update_elf_id"/>
+            <target-list>
+                <item name="input" selection="none"/>
+                <expressions>
+                    <include field="elf_id">ELF_ID + 1</include>
+                </expressions>
+            </target-list>
+        </box>
+        <box name="update_current_elf" type="query">
+            <input port="1" stream="out:is_blank_2"/>
+            <output port="1" stream="out:update_current_elf_1"/>
+            <dataref id="querytable" name="elves"/>
+            <param name="operation" value="write"/>
+            <param name="where" value="primary-key"/>
+            <param name="key-field.0" value="elf_id"/>
+            <param name="key-value.0" value="elf_id"/>
+            <param name="write-type" value="update"/>
+            <param name="if-write-fails" value="force"/>
+            <param name="no-match-mode" value="output-no-match-null"/>
+            <param name="order-by-direction" value="none"/>
+            <target-list>
+                <item name="input" selection="all"/>
+                <item name="old" selection="none"/>
+                <item name="new" selection="none"/>
+            </target-list>
+            <target-list name="insert">
+                <item name="input" selection="all"/>
+            </target-list>
+            <target-list name="update">
+                <item name="input" selection="all"/>
+                <expressions>
+                    <set field="calories">coalesce(old.calories, 0) + int(line)</set>
+                </expressions>
+            </target-list>
+            <target-list name="no-match">
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <output-stream name="update_elf_id"/>
+        <box name="is_last_line" type="filter">
+            <input port="1" stream="out:update_current_elf_1"/>
+            <output port="1" stream="out:is_last_line_1"/>
+            <param name="autogen-nomatch-port" value="false"/>
+            <param name="expression.0" value="line_index == (line_count - 1)"/>
+        </box>
+        <box name="read_top_3" type="query">
+            <input port="1" stream="out:is_last_line_1"/>
+            <output port="1" stream="top_3_elves"/>
+            <dataref id="querytable" name="elves"/>
+            <param name="operation" value="read"/>
+            <param name="where" value="all-rows"/>
+            <param name="limit" value="3"/>
+            <param name="write-type" value="insert"/>
+            <param name="if-write-fails" value="ignore"/>
+            <param name="no-match-mode" value="output-no-match-nothing"/>
+            <param name="order-by-direction" value="descending"/>
+            <param name="order-by-key-field.0" value="calories"/>
+            <target-list>
+                <item name="input" selection="none"/>
+                <item name="current" selection="all"/>
+            </target-list>
+            <target-list name="insert">
+                <item name="input" selection="all"/>
+            </target-list>
+            <target-list name="update">
+                <item name="input" selection="all"/>
+            </target-list>
+            <target-list name="no-match">
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <output-stream name="top_3_elves"/>
+        <box name="top_3_sum" type="aggregate">
+            <input port="1" stream="top_3_elves"/>
+            <output port="1" stream="top_3_calories_total"/>
+            <param name="dimension-name.0" value="after_3"/>
+            <param name="dimension-type.0" value="Tuple"/>
+            <param name="dimension-partial.0" value="no"/>
+            <param name="dimension-size.0" value="3"/>
+            <param name="dimension-emit-close-first.0" value="false"/>
+            <param name="output-group-by" value="true"/>
+            <target-list>
+                <expressions>
+                    <include field="total_calories">sum(calories)</include>
+                </expressions>
+            </target-list>
+        </box>
+        <output-stream name="top_3_calories_total"/>
+    </add>
+</modify>

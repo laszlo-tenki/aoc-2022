@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modify version="10.4.3_a45545bc0fa864b6dd457e084eb653f6e2004e05">
+    <add>
+        <annotations>
+            <annotation name="hygienic"/>
+        </annotations>
+        <type-metadata>
+            <param name="type" value="module"/>
+            <param name="fully-qualified-name" value="com.aoc.aoc2022.day-02_score_module"/>
+        </type-metadata>
+        <memory-model-settings/>
+        <dynamic-variables>
+            <dynamic-variable initial-expression="0" name="PLAYER_1_SCORE" setter-expression="PLAYER_1_SCORE + player_1_score" setter-stream="update_dynvars"/>
+            <dynamic-variable initial-expression="0" name="PLAYER_2_SCORE" setter-expression="PLAYER_2_SCORE + player_2_score" setter-stream="update_dynvars"/>
+        </dynamic-variables>
+        <stream name="in">
+            <schema>
+                <field name="is_last" type="bool"/>
+                <field name="player_1" type="string"/>
+                <field name="player_2" type="string"/>
+                <field name="player_1_score" type="int"/>
+                <field name="player_2_score" type="int"/>
+            </schema>
+        </stream>
+        <box name="winner" type="filter">
+            <input port="1" stream="in"/>
+            <output port="1" stream="out:winner_1"/>
+            <output port="2" stream="out:winner_2"/>
+            <output port="3" stream="out:winner_3"/>
+            <param name="autogen-nomatch-port" value="false"/>
+            <param name="expression.0" value="player_1 == player_2"/>
+            <param name="expression.1" value="(player_1 == &quot;A&quot; &amp;&amp; player_2 == &quot;C&quot;) || (player_1 == &quot;B&quot; &amp;&amp; player_2 == &quot;A&quot;) || (player_1 == &quot;C&quot; &amp;&amp; player_2 == &quot;B&quot;)"/>
+            <param name="expression.2" value="(player_2 == &quot;A&quot; &amp;&amp; player_1 == &quot;C&quot;) || (player_2 == &quot;B&quot; &amp;&amp; player_1 == &quot;A&quot;) || (player_2 == &quot;C&quot; &amp;&amp; player_1 == &quot;B&quot;)"/>
+        </box>
+        <box name="draw" type="map">
+            <input port="1" stream="out:winner_1"/>
+            <output port="1" stream="out:draw_1"/>
+            <target-list>
+                <item name="input" selection="all"/>
+                <expressions>
+                    <replace field="player_1_score">player_1_score + 3</replace>
+                    <replace field="player_2_score">player_2_score + 3</replace>
+                </expressions>
+            </target-list>
+        </box>
+        <box name="player_1_wins" type="map">
+            <input port="1" stream="out:winner_2"/>
+            <output port="1" stream="out:player_1_wins_1"/>
+            <target-list>
+                <item name="input" selection="all"/>
+                <expressions>
+                    <replace field="player_1_score">player_1_score + 6</replace>
+                </expressions>
+            </target-list>
+        </box>
+        <box name="player_2_wins" type="map">
+            <input port="1" stream="out:winner_3"/>
+            <output port="1" stream="out:player_2_wins_1"/>
+            <target-list>
+                <item name="input" selection="all"/>
+                <expressions>
+                    <replace field="player_2_score">player_2_score + 6</replace>
+                </expressions>
+            </target-list>
+        </box>
+        <box name="union" type="union">
+            <input port="1" stream="out:draw_1"/>
+            <input port="2" stream="out:player_1_wins_1"/>
+            <input port="3" stream="out:player_2_wins_1"/>
+            <output port="1" stream="update_dynvars"/>
+            <param name="strict" value="false"/>
+        </box>
+        <output-stream name="update_dynvars"/>
+        <box name="is_last" type="filter">
+            <input port="1" stream="update_dynvars"/>
+            <output port="1" stream="out:is_last_1"/>
+            <param name="autogen-nomatch-port" value="false"/>
+            <param name="expression.0" value="is_last"/>
+        </box>
+        <box name="totals" type="map">
+            <input port="1" stream="out:is_last_1"/>
+            <output port="1" stream="out"/>
+            <target-list>
+                <item name="input" selection="all">
+                    <remove field="player_1"/>
+                    <remove field="player_2"/>
+                    <remove field="is_last"/>
+                </item>
+                <expressions>
+                    <replace field="player_1_score">PLAYER_1_SCORE</replace>
+                    <replace field="player_2_score">PLAYER_2_SCORE</replace>
+                </expressions>
+            </target-list>
+        </box>
+        <output-stream name="out"/>
+    </add>
+</modify>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><application-layout>
+    <component name="in">
+        <param name="gui:x" value="-473"/>
+        <param name="gui:y" value="-2"/>
+    </component>
+    <component name="draw">
+        <param name="gui:x" value="-279"/>
+        <param name="gui:y" value="-12"/>
+    </component>
+    <component name="is_last">
+        <param name="gui:x" value="144"/>
+        <param name="gui:y" value="-2"/>
+    </component>
+    <component name="player_1_wins">
+        <param name="gui:x" value="-186"/>
+        <param name="gui:y" value="-2"/>
+    </component>
+    <component name="player_2_wins">
+        <param name="gui:x" value="-90"/>
+        <param name="gui:y" value="8"/>
+    </component>
+    <component name="totals">
+        <param name="gui:x" value="231"/>
+        <param name="gui:y" value="-2"/>
+    </component>
+    <component name="union">
+        <param name="gui:x" value="10"/>
+        <param name="gui:y" value="-2"/>
+    </component>
+    <component name="winner">
+        <param name="gui:x" value="-374"/>
+        <param name="gui:y" value="-2"/>
+    </component>
+    <component name="out">
+        <param name="gui:x" value="323"/>
+        <param name="gui:y" value="-2"/>
+    </component>
+    <component name="update_dynvars">
+        <param name="gui:x" value="144"/>
+        <param name="gui:y" value="-96"/>
+        <param name="gui:bends:1" value="98,28;120,-66"/>
+    </component>
+</application-layout>

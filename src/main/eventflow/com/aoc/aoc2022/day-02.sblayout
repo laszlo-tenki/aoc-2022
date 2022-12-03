@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><application-layout>
+    <component name="part_1_score">
+        <param name="gui:x" value="-234"/>
+        <param name="gui:y" value="-131"/>
+    </component>
+    <component name="part_2_score">
+        <param name="gui:x" value="420"/>
+        <param name="gui:y" value="36"/>
+    </component>
+    <component name="apply_tactics">
+        <param name="gui:x" value="-346"/>
+        <param name="gui:y" value="36"/>
+    </component>
+    <component name="over_lines">
+        <param name="gui:x" value="-592"/>
+        <param name="gui:y" value="-36"/>
+    </component>
+    <component name="players">
+        <param name="gui:x" value="-502"/>
+        <param name="gui:y" value="-36"/>
+    </component>
+    <component name="read_input">
+        <param name="gui:x" value="-777"/>
+        <param name="gui:y" value="-36"/>
+    </component>
+    <component name="remap">
+        <param name="gui:x" value="-343"/>
+        <param name="gui:y" value="-131"/>
+    </component>
+    <component name="to_lines">
+        <param name="gui:x" value="-688"/>
+        <param name="gui:y" value="-36"/>
+    </component>
+    <component name="tactic">
+        <param name="gui:x" value="-246"/>
+        <param name="gui:y" value="36"/>
+    </component>
+    <component name="p2_score">
+        <param name="gui:x" value="191"/>
+        <param name="gui:y" value="36"/>
+    </component>
+    <component name="Map">
+        <param name="gui:x" value="305"/>
+        <param name="gui:y" value="36"/>
+    </component>
+    <component name="part_1_results">
+        <param name="gui:x" value="-123"/>
+        <param name="gui:y" value="-131"/>
+    </component>
+    <component name="part_2_results">
+        <param name="gui:x" value="522"/>
+        <param name="gui:y" value="36"/>
+    </component>
+    <component name="a">
+        <param name="gui:x" value="290"/>
+        <param name="gui:y" value="110"/>
+    </component>
+    <component name="part_1">
+        <param name="gui:x" value="-365"/>
+        <param name="gui:y" value="-177"/>
+        <param name="gui:width" value="334"/>
+        <param name="gui:height" value="143"/>
+    </component>
+    <gui.group name="part_1" visual-state="open">
+        <member name="remap"/>
+        <member name="part_1_results"/>
+        <member name="part_1_score"/>
+        <param name="gui:x" value="-365"/>
+        <param name="gui:y" value="-177"/>
+        <param name="gui:width" value="334"/>
+        <param name="gui:height" value="143"/>
+    </gui.group>
+</application-layout>
